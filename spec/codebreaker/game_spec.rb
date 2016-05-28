@@ -21,11 +21,11 @@ module Codebreaker
       end
     end
 
-    describe '#guess_processing' do
-      SECRET_CODE = "4234"
-      context 'when secret code '+SECRET_CODE do
+    describe '#check_guess' do
+      secret_code = "4234"
+      context "when secret code #{secret_code}" do
         before do
-          subject.instance_variable_set(:@secret_code, SECRET_CODE)
+          subject.instance_variable_set(:@secret_code, secret_code)
         end
         [
           ['5636','+'], ['5436','+-'], ['2444','+--'], ['3424','+---'],
@@ -34,9 +34,19 @@ module Codebreaker
           ['5441','--'], ['3412','---'], ['3442','----']
         ].each do |item|
           it 'and guess '+item[0] do
-            expect(subject.guess_processing(item[0])).to eq(item[1])
+            expect(subject.check_guess(item[0])).to eq(item[1])
           end
         end
+      end
+    end
+
+    describe '#get_hint' do
+      secret_code = "6234"
+      context "when secret code #{secret_code}" do
+        before do
+          subject.instance_variable_set(:@secret_code, secret_code)
+        end
+        it { expect(secret_code).to include(subject.get_hint) }
       end
     end
 

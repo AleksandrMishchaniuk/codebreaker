@@ -8,7 +8,7 @@ module Codebreaker
       @secret_code = (1..4).map { rand(1..6) }*''
     end
 
-    def guess_processing(guess)
+    def check_guess(guess)
       return "++++" if guess == @secret_code
       check_number_match(*check_exact_match(@secret_code, guess))
     end   
@@ -37,6 +37,10 @@ module Codebreaker
         end
       end
       res
+    end
+
+    def get_hint()
+      @secret_code[rand(0...4)]
     end
 
   end
