@@ -1,5 +1,8 @@
 module Codebreaker
   class Game
+
+    attr_accessor :secret_code
+
     def initialize
       @secret_code = ""
     end

@@ -7,6 +7,8 @@ module Codebreaker
     FILE_NAME = 'results.data.txt'
     FILE_DIR = 'data'
     FILE_PATH = FILE_DIR+'/'+FILE_NAME
+
+    attr_accessor :user_name, :game
     
     def initialize
       @attempts_count = nil
@@ -52,17 +54,15 @@ module Codebreaker
     end
 
     def start_game
-      @attempts_count = ATTEMPTS
-      @hints_count = HINTS
-      @game = Game.new
+      set_variables(ATTEMPTS, HINTS)
       @game.start
-      while @attempts_count > 0
+      while attempts?
         if make_attempt
           you_win
           break
         end
       end
-      you_lose if @attempts_count <= 0 
+      you_lose unless attempts? 
       save_game?
     end
 
@@ -86,19 +86,17 @@ module Codebreaker
     end
 
     def check_guess(guess)
-      res = @game.check_guess(guess)
+      res = guess_result(guess)
       puts res
       return true if res == '++++'
-      @attempts_count -= 1
       false
     end
 
     def get_hint
-      if @hints_count > 0
-        @hints_count -= 1
-        hint = @game.get_hint
-        puts hint
-        hint
+      if hints?
+        h = hint_result
+        puts h
+        h
       else
         no_hints
         false
@@ -130,7 +128,7 @@ module Codebreaker
         case text
           when 'q'
             quit
-          when /^[. \w-]+$/
+          when user_name_pattern
             @user_name = text
             save_game_data
             start
@@ -165,15 +163,48 @@ module Codebreaker
       t = Time.new
       time_str = t.strftime("%Y-%m-%d %H:%M")
       status = (@attempts_count > 0)? 'win': 'lose'
-      attempts = (@attempts_count > 0)? "#{ATTEMPTS - @attempts_count + 1}": "\t"
-      str = "#{@user_name}\t\t\t#{status}\t\t"
-      str += "#{attempts}\t"
-      str += "#{HINTS - @hints_count}\t#{time_str}"
+      attempts = (@attempts_count > 0)? "#{ATTEMPTS - @attempts_count + 1}": "all"
+      str = "#{@user_name}\t\t\t| #{status}\t\t"
+      str += "| #{attempts}\t"
+      str += "| #{HINTS - @hints_count}\t| #{time_str}"
       str
     end
 
     def quit
       exit
+    end
+
+    def set_variables(attempts, hints)
+      @attempts_count = attempts
+      @hints_count = hints
+      @game = Game.new
+    end
+
+    def get_variables
+      [@attempts_count, @hints_count]
+    end
+
+    def guess_result(guess)
+      res = @game.check_guess(guess)
+      @attempts_count -= 1 unless res == '++++'
+      res
+    end
+
+    def hint_result
+      @hints_count -= 1
+      hint = @game.get_hint
+    end
+
+    def attempts?
+      @attempts_count > 0
+    end
+
+    def hints?
+      @hints_count > 0
+    end
+
+    def user_name_pattern
+      /^[. \w-]+$/
     end
 
   end
