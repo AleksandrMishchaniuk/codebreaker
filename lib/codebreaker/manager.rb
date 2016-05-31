@@ -57,10 +57,9 @@ module Codebreaker
       set_variables(ATTEMPTS, HINTS)
       @game.start
       while attempts?
-        if make_attempt
-          you_win
-          break
-        end
+        next unless make_attempt
+        you_win
+        break
       end
       you_lose unless attempts? 
       save_game?
@@ -192,7 +191,7 @@ module Codebreaker
 
     def hint_result
       @hints_count -= 1
-      hint = @game.get_hint
+      @game.get_hint
     end
 
     def attempts?

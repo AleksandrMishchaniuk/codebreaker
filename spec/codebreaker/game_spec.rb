@@ -23,6 +23,7 @@ module Codebreaker
 
     describe '#check_guess' do
       secret_code = "4234"
+      secret_code_2 = "1221"
       context "when secret code #{secret_code}" do
         before do
           subject.instance_variable_set(:@secret_code, secret_code)
@@ -36,6 +37,12 @@ module Codebreaker
           it 'and guess '+item[0] do
             expect(subject.check_guess(item[0])).to eq(item[1])
           end
+        end
+      end
+      context "when secret code #{secret_code_2}" do
+        it 'and guess 2112' do
+          subject.instance_variable_set(:@secret_code, secret_code_2)
+          expect(subject.check_guess('2112')).to eq('----')
         end
       end
     end

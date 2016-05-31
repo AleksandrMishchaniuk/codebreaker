@@ -8,39 +8,17 @@ module Codebreaker
     end
 
     def start
-      @secret_code = (1..4).map { rand(1..6) }*''
+      @secret_code = (1..4).map { rand(1..6) }.join
     end
 
     def check_guess(guess)
       return "++++" if guess == @secret_code
-      check_number_match(*check_exact_match(@secret_code, guess))
+      g_c = guess.split(//).zip(@secret_code.split(//)).delete_if{ |i| i[0]==i[1] }.transpose
+      g_c[0].each do |g| 
+        g_c[1].delete_at(g_c[1].find_index(g)) if g_c[1].include? g
+      end
+      '+' * (@secret_code.size - g_c[0].size) + '-' * (g_c[0].size - g_c[1].size)
     end   
-
-    def check_exact_match(code, guess)
-      res, res_code, res_guess = '', '', ''
-      (0...code.size).each do |i|
-        if code[i] == guess[i]
-          res += '+'
-        else
-          res_code += code[i]
-          res_guess += guess[i]
-        end
-      end
-      [res, res_code, res_guess]
-    end
-
-    def check_number_match(res, code, guess)
-      (0...guess.size).each do |i|
-        (0...code.size).each do |j|
-          if guess[i] == code[j]
-            code[j] = ''
-            res += '-'
-            break
-          end
-        end
-      end
-      res
-    end
 
     def get_hint()
       @secret_code[rand(0...4)]
