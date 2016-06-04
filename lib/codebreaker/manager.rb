@@ -54,8 +54,7 @@ module Codebreaker
     end
 
     def start_game
-      set_variables(ATTEMPTS, HINTS)
-      @game.start
+      game_init
       while attempts?
         next unless make_attempt
         you_win
@@ -171,10 +170,11 @@ module Codebreaker
       str
     end
 
-    def set_variables(attempts, hints)
+    def game_init(attempts = ATTEMPTS, hints = HINTS)
       @attempts_count = attempts
       @hints_count = hints
       @game = Game.new
+      @game.start
     end
 
     def get_variables
