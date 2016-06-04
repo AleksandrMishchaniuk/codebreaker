@@ -24,7 +24,7 @@ module Codebreaker
         text = ask_action
         case text
           when 'q'
-            quit
+            exit
           when 'r'
             print_results
             start_game?
@@ -43,7 +43,7 @@ module Codebreaker
         text = ask_start_game
         case text
           when 'q'
-            quit
+            exit
           when 'g'
             start_game
           else
@@ -71,7 +71,7 @@ module Codebreaker
         text = ask_guess
         case text
           when 'q'
-            quit
+            exit
           when 'h'
             flag = true
             get_hint
@@ -108,7 +108,7 @@ module Codebreaker
         text = ask_save
         case text
           when 'q'
-            quit
+            exit
           when 'n'
             start
           when 'y'
@@ -126,7 +126,7 @@ module Codebreaker
         text = ask_user_name
         case text
           when 'q'
-            quit
+            exit
           when user_name_pattern
             @user_name = text
             save_game_data
@@ -167,10 +167,6 @@ module Codebreaker
       str += "| #{attempts}\t"
       str += "| #{HINTS - @hints_count}\t| #{time_str}"
       str
-    end
-
-    def quit
-      exit
     end
 
     def set_variables(attempts, hints)

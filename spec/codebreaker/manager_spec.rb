@@ -3,14 +3,14 @@ require 'spec_helper'
 module Codebreaker
   RSpec.describe Manager do
 
-    before {allow(subject).to receive(:quit)}
+    before {allow(subject).to receive(:exit)}
 
     describe '#start' do
       after(:each) { subject.start }
       context "when user types 'q'" do
         it do
           allow(subject).to receive(:ask_action).and_return('q')
-          expect(subject).to receive(:quit)
+          expect(subject).to receive(:exit)
         end
       end
       context "when user types 'r'" do
@@ -40,7 +40,7 @@ module Codebreaker
       context "when user types 'q'" do
         it do
           allow(subject).to receive(:ask_start_game).and_return('q')
-          expect(subject).to receive(:quit)
+          expect(subject).to receive(:exit)
         end
       end
       context "when user types 'g'" do
@@ -97,7 +97,7 @@ module Codebreaker
       context "when user types 'q'" do
         it do
           allow(subject).to receive(:ask_guess).and_return('q')
-          expect(subject).to receive(:quit)
+          expect(subject).to receive(:exit)
         end
       end
       context "when user types 'h'" do
@@ -178,7 +178,7 @@ module Codebreaker
       context "when user types 'q'" do
         it do
           allow(subject).to receive(:ask_save).and_return('q')
-          expect(subject).to receive(:quit)
+          expect(subject).to receive(:exit)
         end
       end
       context "when user types 'n'" do
@@ -207,7 +207,7 @@ module Codebreaker
       context "when user types 'q'" do
         it do
           allow(subject).to receive(:ask_user_name).and_return('q')
-          expect(subject).to receive(:quit)
+          expect(subject).to receive(:exit)
         end
       end
       context "when user types corect name" do
