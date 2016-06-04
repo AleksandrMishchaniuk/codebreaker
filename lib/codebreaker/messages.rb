@@ -30,6 +30,11 @@ module Codebreaker
       devider
       puts "Wrong input. Try again"
     end
+
+    def secret_code_msg
+      devider
+      puts "secret code is"
+    end
   end
 
 end

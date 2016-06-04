@@ -62,6 +62,8 @@ module Codebreaker
         break
       end
       you_lose unless attempts? 
+      secret_code_msg
+      puts secret_code
       save_game?
     end
 
@@ -200,6 +202,10 @@ module Codebreaker
 
     def user_name_pattern
       /^[. \w-]+$/
+    end
+
+    def secret_code
+      @game.secret_code
     end
 
   end
