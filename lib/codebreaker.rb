@@ -1,2 +1,5 @@
 require "codebreaker/version"
 require "codebreaker/game"
+require "codebreaker/messages"
+require "codebreaker/asks"
+require "codebreaker/manager"
