@@ -8,7 +8,8 @@ module Codebreaker
     FILE_DIR = 'data'
     FILE_PATH = FILE_DIR+'/'+FILE_NAME
 
-    attr_accessor :user_name, :game
+    attr_accessor :user_name
+    attr_reader :game, :attempts_count, :hints_count
     
     def initialize
       @attempts_count = nil
@@ -76,7 +77,7 @@ module Codebreaker
           when 'h'
             flag = true
             get_hint
-          when /^[1-6]{4}$/
+          when guess_pattern
             return check_guess(text)
           else
             flag = true
@@ -177,10 +178,6 @@ module Codebreaker
       @game.start
     end
 
-    def get_variables
-      [@attempts_count, @hints_count]
-    end
-
     def guess_result(guess)
       res = @game.check_guess(guess)
       @attempts_count -= 1 unless res == '++++'
@@ -202,6 +199,10 @@ module Codebreaker
 
     def user_name_pattern
       /^[. \w-]+$/
+    end
+
+    def guess_pattern
+      /^[1-6]{4}$/
     end
 
     def secret_code
